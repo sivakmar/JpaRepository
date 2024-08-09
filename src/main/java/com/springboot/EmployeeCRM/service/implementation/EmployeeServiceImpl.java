@@ -1,44 +1,44 @@
 package com.springboot.EmployeeCRM.service.implementation;
-
-import com.springboot.EmployeeCRM.dao.EmployeeDAO;
-import com.springboot.EmployeeCRM.dao.EmployeeDAOImpl;
 import com.springboot.EmployeeCRM.entity.Employee;
+import com.springboot.EmployeeCRM.repository.EmployeeRepository;
 import com.springboot.EmployeeCRM.service.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeDAO employeeDAO;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeDAO theEmployeeDAO)
+    public EmployeeServiceImpl(EmployeeRepository theEmployeeRepository)
     {
-        employeeDAO=theEmployeeDAO;
+        employeeRepository=theEmployeeRepository;
     }
 
-    @Transactional
+
     @Override
     public List<Employee> findAll() {
-        return employeeDAO.findAll();
-    }
-    @Transactional
-    @Override
-    public Employee findById(int id) {
-        return employeeDAO.findById(id);
+        return employeeRepository.findAll();
     }
 
-    @Transactional
+
+    @Override
+    public Optional<Employee> findById(int id) {
+        return employeeRepository.findById(id);
+    }
+
     @Override
     public Employee save(Employee employee) {
-        return employeeDAO.save(employee);
+
+        return employeeRepository.save(employee);
     }
-    @Transactional
+
     @Override
     public void delete(int id) {
-         employeeDAO.delete(id);
+         employeeRepository.deleteById(id);
     }
 }

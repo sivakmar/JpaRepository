@@ -1,12 +1,12 @@
 package com.springboot.EmployeeCRM.controller;
 
-import com.springboot.EmployeeCRM.dao.EmployeeDAO;
 import com.springboot.EmployeeCRM.entity.Employee;
 import com.springboot.EmployeeCRM.service.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api")
@@ -25,8 +25,16 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee getById(@PathVariable("employeeId")int id){
+    public Optional<Employee> getById(@PathVariable("employeeId")int id){
         return employeeService.findById(id);
+    }
+
+    @PostMapping("/employees")
+    public Employee addEmployee(@RequestBody Employee employee)
+    {
+        employee.setId(0);
+        Employee dbEmployee=employeeService.save(employee);
+        return employee;
     }
 
     @PutMapping("/employees")
